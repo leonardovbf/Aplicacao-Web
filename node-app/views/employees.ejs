@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Funcionários</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4facfe;
+            display: inline-block;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            font-weight: 600;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.15);
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #fafcff;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 1.1em;
+        }
+
+        .form-container {
+            background: #f0f9ff;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #bfdbfe;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .form-group input, .form-group select {
+            padding: 12px 15px;
+            border: 2px solid #bfdbfe;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .position-badge {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .age-display {
+            background: #f0f9ff;
+            color: #1e40af;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .employee-name {
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .address-text {
+            color: #666;
+            font-size: 0.95em;
+            font-style: italic;
+        }
+
+        /* Back to Home Button */
+        .back-home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+            z-index: 1000;
+        }
+
+        .back-home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        .back-home-btn:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.9em;
+            }
+
+            .table-container {
+                font-size: 0.85em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .table-container {
+                overflow-x: scroll;
+            }
+            
+            th, td {
+                white-space: nowrap;
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Home Button -->
+    <a href="/" class="back-home-btn">
+        <span>🏠</span>
+        <span>Início</span>
+    </a>
+    <div class="container">
+        <div class="header">
+            <h1>👥 Gerenciamento de Funcionários</h1>
+            <p>Visualize e gerencie todos os funcionários da empresa</p>
+        </div>
+
+        <div class="content">
+            
+            <div class="section">
+                <h2 class="section-title">👨‍💼 Funcionários Cadastrados</h2>
+                
+                <div class="table-container">
+                    <% if (typeof employees !== 'undefined' && employees && employees.length > 0) { %>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome Completo</th>
+                                    <th>Idade</th>
+                                    <th>Cargo</th>
+                                    <th>Endereço</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% employees.forEach(function(employee) { %>
+                                    <tr>
+                                        <td>
+                                            <span class="employee-name">
+                                                <%= employee.nome %> <%= employee.sobrenome %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="age-display">
+                                                <%= employee.idade %> anos
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="position-badge">
+                                                <%= employee.cargo %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="address-text">
+                                                <%= employee.endereço || 'Não informado' %>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <path d="M20 8v6"></path>
+                                <path d="M23 11h-6"></path>
+                            </svg>
+                            <h3>Nenhum funcionário encontrado</h3>
+                            <p>Adicione seu primeiro funcionário usando o formulário abaixo</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">➕ Adicionar Novo Funcionário</h2>
+                
+                <div class="form-container">
+                    <form id="addEmployeeForm" method="POST" action="/employees">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="nome">Nome</label>
+                                <input 
+                                    type="text" 
+                                    id="nome" 
+                                    name="nome" 
+                                    placeholder="Ex: João" 
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sobrenome">Sobrenome</label>
+                                <input 
+                                    type="text" 
+                                    id="sobrenome" 
+                                    name="sobrenome" 
+                                    placeholder="Ex: Silva Santos" 
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="idade">Idade</label>
+                                <input 
+                                    type="number" 
+                                    id="idade" 
+                                    name="idade" 
+                                    placeholder="Ex: 28" 
+                                    min="16" 
+                                    max="100"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cargo">Cargo</label>
+                                <select id="cargo" name="cargo" required>
+                                    <option value="">Selecione um cargo...</option>
+                                    <option value="Desenvolvedor Frontend">Desenvolvedor Frontend</option>
+                                    <option value="Desenvolvedor Backend">Desenvolvedor Backend</option>
+                                    <option value="Desenvolvedor Full Stack">Desenvolvedor Full Stack</option>
+                                    <option value="Designer UX/UI">Designer UX/UI</option>
+                                    <option value="Gerente de Projeto">Gerente de Projeto</option>
+                                    <option value="Analista de Sistemas">Analista de Sistemas</option>
+                                    <option value="DevOps Engineer">DevOps Engineer</option>
+                                    <option value="QA Tester">QA Tester</option>
+                                    <option value="Scrum Master">Scrum Master</option>
+                                    <option value="Product Owner">Product Owner</option>
+                                    <option value="Arquiteto de Software">Arquiteto de Software</option>
+                                    <option value="Analista de Dados">Analista de Dados</option>
+                                    <option value="Administrador de Sistemas">Administrador de Sistemas</option>
+                                    <option value="Especialista em Segurança">Especialista em Segurança</option>
+                                    <option value="Consultor Técnico">Consultor Técnico</option>
+                                    <option value="Outro">Outro</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" style="grid-column: span 1;">
+                                <label for="endereco">Endereço (Opcional)</label>
+                                <input 
+                                    type="text" 
+                                    id="endereco" 
+                                    name="endereco" 
+                                    placeholder="Rua, número, bairro, cidade, CEP"
+                                >
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn">
+                            👨‍💼 Adicionar Funcionário
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('addEmployeeForm').addEventListener('submit', function(e) {
+            const nome = document.getElementById('nome').value.trim();
+            const sobrenome = document.getElementById('sobrenome').value.trim();
+            const idade = document.getElementById('idade').value;
+            const cargo = document.getElementById('cargo').value;
+
+            if (!nome || !sobrenome || !idade || !cargo) {
+                e.preventDefault();
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+
+            const idadeNum = parseInt(idade);
+            if (idadeNum < 16 || idadeNum > 100) {
+                e.preventDefault();
+                alert('A idade deve estar entre 16 e 100 anos.');
+                return;
+            }
+
+            const submitBtn = this.querySelector('.btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '⏳ Salvando...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('nome').focus();
+        });
+
+        document.getElementById('cargo').addEventListener('change', function() {
+            if (this.value === 'Outro') {
+                const customCargo = prompt('Digite o cargo personalizado:');
+                if (customCargo && customCargo.trim()) {
+                    const newOption = new Option(customCargo.trim(), customCargo.trim(), true, true);
+                    this.add(newOption, this.options.length - 1);
+                    this.value = customCargo.trim();
+                } else {
+                    this.value = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

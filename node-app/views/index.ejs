@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gerenciamento Empresarial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 50px 30px;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .welcome-title {
+            font-size: 2.2em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .navigation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .nav-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(102, 126, 234, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-card:hover::before {
+            opacity: 1;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .nav-card.locations {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e0e7ff 100%);
+        }
+
+        .nav-card.employees {
+            background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+        }
+
+        .nav-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-card:hover .nav-icon {
+            transform: scale(1.1);
+        }
+
+        .nav-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .nav-description {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .nav-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .nav-card.employees .nav-button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .features-section {
+            margin-top: 60px;
+            padding: 40px 20px;
+            background: #f8f9ff;
+            border-radius: 16px;
+            border: 1px solid #e0e7ff;
+        }
+
+        .features-title {
+            text-align: center;
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .feature-text {
+            font-size: 1em;
+            color: #666;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2.2em;
+            }
+
+            .header p {
+                font-size: 1.1em;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .welcome-title {
+                font-size: 1.8em;
+            }
+
+            .navigation-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .nav-card {
+                padding: 30px 20px;
+            }
+
+            .features-section {
+                margin-top: 40px;
+                padding: 30px 15px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏢 Sistema Empresarial</h1>
+            <p>Plataforma integrada de gerenciamento</p>
+        </div>
+
+        <div class="content">
+            <div class="welcome-section">
+                <h2 class="welcome-title">Bem-vindo ao seu painel de controle</h2>
+                <p class="welcome-subtitle">
+                    Gerencie funcionários e localizações da sua empresa de forma eficiente e intuitiva. 
+                    Escolha uma das opções abaixo para começar.
+                </p>
+            </div>
+
+            <div class="navigation-grid">
+                <a href="/locations" class="nav-card locations">
+                    <span class="nav-icon">📍</span>
+                    <h3 class="nav-title">Localizações</h3>
+                    <p class="nav-description">
+                        Visualize e gerencie todas as localizações da empresa. 
+                        Adicione novas filiais e atualize informações.
+                    </p>
+                    
+                    <div class="nav-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">
+                                <%= typeof locationsCount !== 'undefined' ? locationsCount : '0' %>
+                            </div>
+                            <div class="stat-label">Localizações</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">
+                                <%= typeof totalEmployeesInLocations !== 'undefined' ? totalEmployeesInLocations : '0' %>
+                            </div>
+                            <div class="stat-label">Funcionários</div>
+                        </div>
+                    </div>
+
+                    <span class="nav-button">Gerenciar Localizações</span>
+                </a>
+                <a href="/employees" class="nav-card employees">
+                    <span class="nav-icon">👥</span>
+                    <h3 class="nav-title">Funcionários</h3>
+                    <p class="nav-description">
+                        Administre informações dos funcionários, cargos e dados pessoais. 
+                        Mantenha o quadro de pessoal sempre atualizado.
+                    </p>
+                    
+                    <div class="nav-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">
+                                <%= typeof employeesCount !== 'undefined' ? employeesCount : '0' %>
+                            </div>
+                            <div class="stat-label">Funcionários</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">
+                                <%= typeof departmentsCount !== 'undefined' ? departmentsCount : '16' %>
+                            </div>
+                            <div class="stat-label">Cargos</div>
+                        </div>
+                    </div>
+
+                    <span class="nav-button">Gerenciar Funcionários</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth scrolling and interaction effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click animation to nav cards
+            const navCards = document.querySelectorAll('.nav-card');
+            
+            navCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('div');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(102, 126, 234, 0.3)';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.left = (e.clientX - card.offsetLeft) + 'px';
+                    ripple.style.top = (e.clientY - card.offsetTop) + 'px';
+                    ripple.style.width = ripple.style.height = '20px';
+                    
+                    card.style.position = 'relative';
+                    card.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

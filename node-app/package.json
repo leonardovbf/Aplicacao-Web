@@ -1,0 +1,27 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:sync": "node scripts/sync-db.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@sequelize/postgres": "^7.0.0-alpha.46",
+    "body-parser": "^2.2.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
+    "postgres": "^3.4.7",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.1",
+    "sequelize-cli": "^6.6.3"
+  }
+}

@@ -333,7 +333,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏢 Sistema Empresarial</h1>
+            <h1>Sistema Empresarial</h1>
             <p>Plataforma integrada de gerenciamento</p>
         </div>
 
@@ -402,14 +402,12 @@
     </div>
 
     <script>
-        // Add smooth scrolling and interaction effects
         document.addEventListener('DOMContentLoaded', function() {
-            // Add click animation to nav cards
+            
             const navCards = document.querySelectorAll('.nav-card');
             
             navCards.forEach(card => {
                 card.addEventListener('click', function(e) {
-                    // Create ripple effect
                     const ripple = document.createElement('div');
                     ripple.style.position = 'absolute';
                     ripple.style.borderRadius = '50%';
@@ -430,7 +428,6 @@
             });
         });
 
-        // Add CSS for ripple animation
         const style = document.createElement('style');
         style.textContent = `
             @keyframes ripple {

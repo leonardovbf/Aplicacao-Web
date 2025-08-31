@@ -17,14 +17,8 @@ module.exports = (app) => {
         res.render('index', { locationsCount, totalEmployeesInLocations, employeesCount });
     })
 
-    app.get('/test', (req, res) => {
-
-        res.render('test')
-    })
-
     app.get('/locations', async (req, res, next) => {
 
-        console.log('[GET /locations] hit');
 
         try {
             const locations = await Location.findAll({
@@ -35,7 +29,7 @@ module.exports = (app) => {
             return res.render('locations', { locations });
         } catch (err) {
 
-            console.error('[GET /locations] error:', err);
+            console.error('GET /locations error:', err);
 
             return next(err);
         }
@@ -44,8 +38,6 @@ module.exports = (app) => {
     });
 
     app.get('/employees', async (req, res, next) => {
-
-        console.log('[GET /employees] hit');
 
         try {
             const employees = await Employee.findAll({
@@ -56,7 +48,7 @@ module.exports = (app) => {
             return res.render('employees', { employees });
         } catch (err) {
 
-            console.error('[GET /employees] error:', err);
+            console.error('GET /employees error:', err);
 
             return next(err);
         }
@@ -64,7 +56,6 @@ module.exports = (app) => {
     })
 
     app.post('/locations', async (req, res, next) => {
-        console.log('[POST /locations] hit');
 
         const nome = (req.body.nome || '').trim();
         const endereco = (req.body.endereco || '').trim();
@@ -75,7 +66,7 @@ module.exports = (app) => {
 
         if (!nome || !endereco || Number.isNaN(num_employees) || !data_de_compra) {
 
-            console.error('[POST /locations] validation error:', { nome, endereco, num_employees, data_de_compra });
+            console.error('POST /locations validation error:', { nome, endereco, num_employees, data_de_compra });
 
             return res.status(400).render('locations', {
                 locations: [],
@@ -92,19 +83,17 @@ module.exports = (app) => {
                 data_de_compra, 
             })
 
-            console.log('[POST /locations] created:', location);
 
             return res.redirect('/locations?created=1&id=' + location.id);
         }
         catch (error){
-            console.error('[POST /locations] error:', error);
+            console.error('POST /locations error:', error);
             return next(error);
         }
 
     })
 
     app.post('/employees', async (req, res, next) => {
-        console.log('[POST /employees] hit');
 
         const nome = (req.body.nome || '').trim();
         const sobrenome = (req.body.sobrenome || '').trim();
@@ -116,7 +105,7 @@ module.exports = (app) => {
 
         if (!nome || !sobrenome || Number.isNaN(idade) || !cargo) {
 
-            console.error('[POST /employees] validation error:', { nome, sobrenome, idade, cargo, endereco });
+            console.error('POST /employees validation error:', { nome, sobrenome, idade, cargo, endereco });
 
             return res.status(400).render('employees', {
                 employees: [],
@@ -134,12 +123,10 @@ module.exports = (app) => {
                 endereco,
             })
 
-            console.log('[POST /employees] created:', employee);
-
             return res.redirect('/employees?created=1&id=' + employee.id);
         }
         catch (error){
-            console.error('[POST /employees] error:', error);
+            console.error('POST /employees error:', error);
             return next(error);
         }
 

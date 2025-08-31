@@ -48,6 +48,8 @@ Aplicacao-Web/
 
 Abaixo segue o vídeo de descrição do projeto:
 
+[Link de Drive](https://drive.google.com/file/d/18_9DU_sF7vt9UoDRvEq_MHUK_JXUzhqW/view?usp=sharing)
+
 ## Tecnologias Utilizadas
 
 ### Backend

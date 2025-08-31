@@ -2,9 +2,10 @@
 
 Este repositório engloba uma aplicacao web simples criada em Node com Express JS, com 2 principais tableas de Empregados e de Localizações para a gerência simulada. Esta plataforma foi desenvolvida com Node.js, Express, Sequelize e PostgreSQL.
 
-## 📋 Índice
+## Índice
 
 - [Estrutura do Repositório](#estrutura-do-repositório)
+- [Video do Projeto](#video-do-projeto)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Arquitetura da Aplicação](#arquitetura-da-aplicação)
 - [Funcionalidades](#funcionalidades)
@@ -12,7 +13,7 @@ Este repositório engloba uma aplicacao web simples criada em Node com Express J
 - [Estrutura do Banco de Dados](#estrutura-do-banco-de-dados)
 - [Interface do Usuário](#interface-do-usuário)
 
-## 🗂️ Estrutura do Repositório
+## Estrutura do Repositório
 
 ```
 Aplicacao-Web/
@@ -42,6 +43,10 @@ Aplicacao-Web/
 │   └── .sequelizerc                   
 └── README.md                          
 ```
+
+## Video do Projeto
+
+Abaixo segue o vídeo de descrição do projeto:
 
 ## Tecnologias Utilizadas
 
